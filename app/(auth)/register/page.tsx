@@ -3,7 +3,7 @@
 import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useRouter } from "next/navigation"
-import { signUp } from "@/lib/auth-client"
+import { signUp } from "@/lib/auth/auth-client"
 import Link from "next/link"
 import { registerSchema } from "@/lib/validations/auth"
 import { z } from "zod"

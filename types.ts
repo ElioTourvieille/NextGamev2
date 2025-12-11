@@ -6,7 +6,7 @@ export type Category = {
 }
 
 export type Game = {
-    id: number;
+    id: string;
     title: string;
     slug: string;
     description: string;
