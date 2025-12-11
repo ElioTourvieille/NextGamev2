@@ -1,0 +1,132 @@
+"use client"
+
+import { useForm } from "react-hook-form"
+import { zodResolver } from "@hookform/resolvers/zod"
+import { useRouter } from "next/navigation"
+import { signUp } from "@/lib/auth-client"
+import Link from "next/link"
+import { registerSchema } from "@/lib/validations/auth"
+import { z } from "zod"
+import { useState } from "react"
+import { toast } from "sonner"
+
+type RegisterFormData = z.infer<typeof registerSchema>
+
+export default function RegisterPage() {
+  const router = useRouter()
+  const [serverError, setServerError] = useState("")
+  
+  const { register, handleSubmit, formState: { errors, isSubmitting } } = useForm<RegisterFormData>({
+    resolver: zodResolver(registerSchema),
+    defaultValues: { email: "", password: "", name: "" },
+  })
+
+  async function onSubmit(data: RegisterFormData) {
+    setServerError("")
+
+    try {
+      const result = await signUp.email({
+        email: data.email,
+        password: data.password,
+        name: data.name,
+      })
+
+      if (result.error) {
+        setServerError(result.error.message || "Une erreur est survenue")
+        toast.error("Une erreur est survenue")
+        return
+      }
+
+      router.push("/")
+      router.refresh()
+      toast.success("Inscription réussie")
+    } catch (err: any) {
+      setServerError(err.message || "Une erreur est survenue")
+      toast.error("Une erreur est survenue, veuillez réessayer plus tard")
+    }
+  }
+
+  return (
+    <div className="min-h-screen flex items-center justify-center bg-gray-50">
+      <div className="max-w-md w-full space-y-8 p-8 bg-white rounded-lg shadow">
+        <div>
+          <h2 className="text-3xl font-bold text-center text-gray-900">Inscription</h2>
+        </div>
+
+        <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+          {serverError && (
+            <div className="bg-red-50 text-red-600 p-3 rounded text-sm">
+              {serverError}
+            </div>
+          )}
+
+          <div>
+            <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-1">
+              Nom
+            </label>
+            <input
+              id="name"
+              type="text"
+              {...register("name")}
+              className={`mt-1 block w-full px-3 py-2 border rounded-md text-gray-900 ${
+                errors.name ? "border-red-500" : "border-gray-300"
+              }`}
+            />
+            {errors.name && (
+              <p className="text-red-500 text-sm mt-1">{errors.name.message}</p>
+            )}
+          </div>
+
+          <div>
+            <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">
+              Email
+            </label>
+            <input
+              id="email"
+              type="email"
+              {...register("email")}
+              className={`mt-1 block w-full px-3 py-2 border rounded-md text-gray-900 ${
+                errors.email ? "border-red-500" : "border-gray-300"
+              }`}
+            />
+            {errors.email && (
+              <p className="text-red-500 text-sm mt-1">{errors.email.message}</p>
+            )}
+          </div>
+
+          <div>
+            <label htmlFor="password" className="block text-sm font-medium text-gray-700 mb-1">
+              Mot de passe
+            </label>
+            <input
+              id="password"
+              type="password"
+              {...register("password")}
+              className={`mt-1 block w-full px-3 py-2 border rounded-md text-gray-900 ${
+                errors.password ? "border-red-500" : "border-gray-300"
+              }`}
+            />
+            {errors.password && (
+              <p className="text-red-500 text-sm mt-1">{errors.password.message}</p>
+            )}
+          </div>
+
+          <button
+            type="submit"
+            disabled={isSubmitting}
+            className="w-full py-2 px-4 bg-blue-600 text-white rounded-md hover:bg-blue-700 disabled:opacity-50"
+          >
+            {isSubmitting ? "Inscription..." : "S'inscrire"}
+          </button>
+        </form>
+
+        <p className="text-center text-sm text-gray-600">
+          Déjà un compte ?{" "}
+          <Link href="/login" className="text-blue-600 hover:underline">
+            Se connecter
+          </Link>
+        </p>
+      </div>
+    </div>
+  )
+}
