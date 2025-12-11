@@ -103,7 +103,7 @@ BETTER_AUTH_URL="http://localhost:3000"
 4. **Configurer la base de données**
 Initier Prisma
 ```bash
-pnpm prisma init
+pnpm prisma init --db
 ```
 Exécuter les migrations :
 ```bash
