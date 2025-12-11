@@ -34,7 +34,7 @@ const games = [
       description: "Un FPS tactique 5v5 avec des agents dotés de capacités uniques.",
       genre: Genre.FPS,
       price: 0,
-      imageUrl: "https://images.igdb.com/igdb/image/upload/t_cover_big/co49x5.png",
+      imageUrl: "https://www.riotgames.com/darkroom/1440/8d5c497da1c2eeec8cffa99b01abc64b:5329ca773963a5b739e98e715957ab39/ps-f2p-val-console-launch-16x9.jpg",
       publisher: "Riot Games",
       releaseDate: new Date("2020-06-02"),
     },
