@@ -17,7 +17,6 @@ const GameCard = ({ game }: { game: Game }) => {
               fill
               className="object-contain rounded-md transition-all duration-300 transform hover:scale-105"
               sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-              priority
             />
           </div>
           <p className="font-bold text-lg">{game.title}</p>

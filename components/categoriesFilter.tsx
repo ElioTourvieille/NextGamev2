@@ -99,7 +99,7 @@ const CategoriesFilter = ({ games, onFilteredGamesChange }: CategoriesFilterProp
       {selectedCategories.size > 0 && (
         <div className="mt-4 text-sm text-muted-foreground">
           {filteredGames.length} jeu{filteredGames.length > 1 ? "x" : ""} trouvé
-          {selectedCategories.size > 1 ? "s" : ""}
+          {filteredGames.length > 1 ? "s" : ""}
         </div>
       )}
     </div>
